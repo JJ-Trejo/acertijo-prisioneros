@@ -1,0 +1,74 @@
+/*Cambios globales -(Reset)- Se eliminan los estilos por defecto de los navegadores*/
+*{ /*Selecto universal*/
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    box-sizing: border-box;
+    background-color: #F8EDE3;
+
+    /* Hacemos que el contenedor principal ocupe todo el espacio vertical */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* El 100% de la altura de la ventana */
+    margin: 0;
+}
+
+main{
+    height: auto;
+}
+
+.contenido{
+    /* Hace que elc ontenido crezca y ocupe el espacio restante */
+    flex: 1;
+    text-align: center;
+}
+
+
+#contenedorCajas{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.caja{
+
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #C5705D;
+
+    /* Alinemos el numero de la caja al centro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 10px;
+    width: 60px;
+    height: 60px;
+}
+
+.abierta{
+    background-color: #DFD3C3;
+
+}
+
+footer{
+    background-color: #C5705D;
+    text-align: center;
+    padding: 10px;
+    margin-top: 30px;
+}
+
+
+/* Este codigo sirve para asegurar que el pie de página esté siempre en la parte inferior
+   Esto fija el pie de ´+agina en la parte inferior de la ventana del navegador, sin importar el contenido
+
+footer{
+    position: fixed;  esto posiciona de manera fija respecto a la ventana del navegador 
+    bottom: 0;  indica que en la parte inferior del elemento debe estar alineada con la parte inferior de la ventana del navegador, es decir, a 0 pixeles del borde inferior de la ventana
+    width: 100%;
+
+    text-align: center;
+    background-color: #C5705D;
+    padding: 10px;
+}*/
