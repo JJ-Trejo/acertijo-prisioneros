@@ -10,18 +10,43 @@
 
 <body>
 
-    <header>
+    <header class="header">
         <nav>
-            <a href="informacion.html">Cómo funciona</a>
+            <a href="informacion.html" class="headerLink">Cómo funciona</a>
         </nav>
 
     </header>
 
     <main class="contenido">           
         <h1 class="contenidoTitulo">Acertijo prisioneros</h1>
-        <label for="numPrisioneros">Número de prisioneros: </label>
-        <input type="number" id="numPrisioneros" name="numPrisioneros" min="1" max="1000">
-        <button onclick="generarCajas();">Generar cajas</button>
+        
+        <div class="textoPrisioneros">
+            <label for="numPrisioneros">Número de prisioneros: </label>
+            <input type="number" id="numPrisioneros" name="numPrisioneros" min="1" max="1000">
+            <button onclick="generarCajas();">Generar cajas</button>
+        </div>
+
+        <div class="textoNumeroDePrisionero">
+            <label for="numeroDePrisionero">Ingresa tu numero prisionero</label>
+            <input type="number" name="numeroDePrisionero" id="numeroDePrisionero" min="1" max="1000">    
+            <button>Empezar turno</button>
+        </div>
+
+        <div class="instrucciones">
+            <h2>Instrucciones</h2>
+            <ol>
+                <li>- Tenemos 100 prisioneros numerados del 1 al 100</li>
+                <li>- Los papeles con sus números son colocados aleatoriamente en cien cajas dentro de una habitación</li>
+                <li>- Uno por uno, cada prisionero puede entrar a la habitación y abrir cincuenta cajas</li>
+                <li>- Deben dejar la habitación exactamente como la hallaron y no pueden comunicarse entre sí al salir</li>
+                <li>Si los 100 prisioneros encuentran su número durante su turno en la habitación, todos serán liberados. Si tan solo uno falla, todos serán ejecutados.</li>
+            </ol>
+
+            <div class="contenedorVideo">
+                <iframe class="video" width="560" height="315" src="https://www.youtube.com/embed/ksasmB0YPzw?si=Zyyfqyk_mieGlldG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            
+        </div>
         
         <div id="contenedorCajas"></div> <!-- Aquí se guardaran todas la cajas que se generen -->
     </main>

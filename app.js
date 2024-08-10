@@ -5,6 +5,11 @@ let cajas = []; //se crea un arreglo, inicialmente sin nada
 
 function generarCajas(){
 
+    //Primero se quitan las instrucciones iniciales
+    let ocultarInstrucciones = document.querySelector('.instrucciones');
+    ocultarInstrucciones.style.display = 'none'
+    //
+
     cajas = [];  //limpia el arreglo cajas
     numerosGenerados = []; //limpia el arreglo numerosGenerados
 
