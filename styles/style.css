@@ -38,6 +38,10 @@ main{
     gap: 15px
 }
 
+.textoContadorIntentos{
+    display: none;
+}
+
 .instrucciones{
     text-align: justify;
     margin-left: 10%;
@@ -72,6 +76,25 @@ main{
     width: 60px;
     height: 60px;
 }
+
+/*-----------------Definir la animación de parpadeo----------------*/
+@keyframes parpadeo { /* Define la anumación llamada "parpadeo" */
+    0%, 100% { /* Al inicio y al final de la animación */
+        opacity: 1; /* la opacidad es completa (el div es completamente visible) */
+    }
+    50% { /* En la mitad de la animación */
+        background-color: #000000; /* cambia el color de fondo */
+        /* opacity: 0;   la opacidad es 0, haciendo que el div sea invisible */
+        color: white;
+    }
+}
+
+/* Aplicar la animación al div */
+.pista {
+    animation: parpadeo 1s ease-out 1; /* Aplica la animación parpadeo, dura 1 segundo con un movimiento lineal, y se repite 1 vez */
+}
+/*-----------------------------------------------------------------*/
+
 
 .abierta{
     background-color: #DFD3C3;

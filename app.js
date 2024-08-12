@@ -1,79 +1,83 @@
-let numMinimo = 1;
-let numMaximo = 100;
-let numerosGenerados = []; //este arreglo guarda los numeros que se van generando para que no se repitan
-let cajas = []; //se crea un arreglo, inicialmente sin nada
+let numeroMinimo = 1;
+let numeroMaximo = 100;
 
-function generarCajas(){
+
+function generarCajas(){ //Primera función en ser llamada
 
     //Primero se quitan las instrucciones iniciales
     let ocultarInstrucciones = document.querySelector('.instrucciones');
     ocultarInstrucciones.style.display = 'none'
     //
 
-    cajas = [];  //limpia el arreglo cajas
-    numerosGenerados = []; //limpia el arreglo numerosGenerados
+    //Recibe el numero ingresado (Número de prisioneros)
+    const numCajas = parseInt( document.getElementById('numPrisioneros').value );
 
-    let numCajas = document.getElementById('numPrisioneros').value; //recibe el valor ingresado por el usuario y la guarda en "numCajas"
-
-    let contenedorCajas = document.getElementById('contenedorCajas'); //le damos acceso al div creado en html con el id "contenedorCajas"
-    
-    contenedorCajas.innerHTML = ''; //limpiamos el contenedor
-
-    if (numCajas < numMinimo || numCajas > numMaximo){
-        alert(`Por favor ingrese un número entre ${numMinimo} y ${numMaximo}`);
-        return;
+    //condicion para verificar que el numero ingresado sea entre el rango permitido
+    if( numCajas < numeroMinimo || numCajas > numeroMaximo ){
+        alert("Por favor ingresa un numero entre " + numeroMinimo + " y " + numeroMaximo);
+    return; //con esto hacemos que la función termine aquí y no siga
     }
 
-    //crear y ordenas las cajas
+    //Si el valor ingresado es correcto sigue el codigo
 
-    for ( let i=1; i<=numCajas; i++){ //repetira el ciclo igual a numCajas
-        let numeroAleatorio = generaNumeroAleatorio(numCajas); //se llama a la funcion que genera un numero aleatorio y lo guarda en numeroAleatorio
-        cajas.push({ numeroCaja: i, numInterior: numeroAleatorio }); //se agrega el numero de la caja y su numero interior al arreglo cajas[]
-        numerosGenerados.push(numeroAleatorio);
+    //se crea la relación con <div class="contenedorCajas" > 
+    const contenedor = document.getElementById('contenedorCajas');
+    contenedor.innerHTML = ''; //accedemos al contenido del <div class="contenedorCajas" > contenido </div> y se limpia
+
+    //llamamos a la funcion que genera numeros aleatorios y le pasamos el rango máximo "numCajas"
+    let numerosGenerados = generarNumerosAleatorios(numCajas);
+
+    for( let i = 1; i<= numCajas; i++ ){
+        const caja = document.createElement('div'); //se crea un elemento <div>
+        caja.classList.add('caja'); //agregamos la clase al <div> creado
+        caja.textContent = i; //numero externo de la caja que se muestra inicialmente
+        caja.dataset.numeroExterno = i; //guarda el numero externo i
+        caja.dataset.numeroInterno = numerosGenerados[i-1]; //guarda el numero interno 
+
+        //<div class="caja abierta" data-numero-externo="10" data-numero-interno="26">26</div>
+        
+        //añadimos un escuchador de eventos a cada caja
+        caja.addEventListener('click', function(){       
+            //document.querySelector() busca y devuelve el primer elemento del documento HTML que conincide con el selector CSS proporcionado
+            //si no encuentra ningún elemento que coincida, devuelve 'null'
+            const pistaCaja = document.querySelector(`.caja[data-numero-externo='${this.dataset.numeroInterno}']`);
+            
+            //si anteriormente se encontró un elemento coincidente
+            if(pistaCaja){
+                pistaCaja.classList.add('pista');
+            }
+
+            this.textContent = this.dataset.numeroInterno; //se accede al contenido del div (el numero mostrado en pantalla) y se cambia el valor al numero interno
+            this.classList.add('abierta'); //cuando se hace click en una caja, su clase cambia a class="abierta";
+        });
+
+        //después de configurar cada cada, se agrega al contenedor 'contenedorCajas'
+        contenedor.appendChild(caja);
     }
-
-    console.log(cajas);
-
-    creaCajas(); //llama a la funcion creaCajas
 }
 
 
-//mejorar el algoritmo generaNumeroAleatorio
-function generaNumeroAleatorio(numCajas) {
-    const numAleatorio = parseInt(Math.random()*numCajas) +1; //Genera un numero entero aleatorio entre numMinimo y numCajas
-    //console.log(numAleatorio);
-    if(numerosGenerados.includes(numAleatorio)){
-        return generaNumeroAleatorio (numCajas);
-    }
-    else{
-        return numAleatorio;
-    }
+function numeroParticipante(){
+    let numeroDePrisionero = parseInt(document.getElementById('numeroDePrisionero').value);
+    let textoIntentos = document.querySelector('.textoContadorIntentos');
+    textoIntentos.innerHTML = 'intentos restantes: ';
+    textoIntentos.style.display = 'block';
 }
 
-//crear y agregar las cajas al contenedor
-function creaCajas(){
-    //es un bucle en el que se aplicarán los atributos dentro de {} para cada elemento del arreglo cajas []
-    cajas.forEach(cajaDatos => {
-        //const caja es una referencia el nuevo 'div'
-        const caja = document.createElement('div'); //se crea un nuevo elemento 'div'
-        //todas las operaciones siguientes se realizan dentro del mismo 'div'
-        caja.className = 'caja'; //se le asigna la clase 'caja' al nuevo 'div'
-        caja.dataset.numero = cajaDatos.numInterior; // Se asigna un nuevo atributo data-numero al 'div' creado, que contiene el valor de cajaDatos.numInterior
-        
-        // ejemplo de como se veria en html
-        // si cajaDatos.numInterior = 42
-        // <div class="caja" data-numero="42">...</div>
-        
-        caja.innerHTML = cajaDatos.numeroCaja; //El contenido HTML del 'div' se establece con el valor de numeroCaja de cajaDatos. Este valor se mostrará inicialmente dentro de la caja.
 
-        //lo sigueinte se activa cuando se haga click en cualquier 'caja'
-        caja.addEventListener('click', function() {
-            caja.innerHTML = caja.dataset.numero;
-            caja.classList.add('abierta');
-          });
+function generarNumerosAleatorios(numero){
+    const numeros = [];
 
-        //Finalmente, se añade el div creado y configurado al contenedor de cajas (contenedorCajas). Esto coloca el div en el DOM, haciéndolo visible en la página web.
-        contenedorCajas.appendChild(caja);
+     //bucle para llenar el arreglo numeros [] con numeros del numMinimo al numMaximo
+    for ( let i = 1; i <= numero ;i++ ){
+        numeros.push(i); //se agrega el numero al arreglo: numeros [0] = 1, numeros [1] = 2, ...
+    } 
 
-    });
+    //Algoritmo "Fisher-Yates shuffle" para mezclar los elementos de forma aleatoria
+    for( let i=numeros.length - 1; i>0; i-- ){ //bucle
+        const j = Math.floor(Math.random() * (i+1));
+        [numeros[i], numeros[j]] = [numeros[j], numeros[i]];
+    }
+
+    return numeros; //regresamos el arreglo ya barajeado
 }
